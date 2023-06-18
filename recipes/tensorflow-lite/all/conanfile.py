@@ -28,6 +28,7 @@ class TensorflowLiteConan(ConanFile):
         "with_nnapi": [True, False],
         "with_mmap": [True, False],
         "with_xnnpack": [True, False],
+        "with_gpu": [True, False],
     }
     default_options = {
         "shared": False,
@@ -35,7 +36,8 @@ class TensorflowLiteConan(ConanFile):
         "with_ruy": False,
         "with_nnapi": False,
         "with_mmap": True,
-        "with_xnnpack": True
+        "with_xnnpack": True,
+        "with_gpu": False
     }
 
     short_paths = True
@@ -113,7 +115,7 @@ class TensorflowLiteConan(ConanFile):
             "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS": True,
             "TFLITE_ENABLE_RUY": self.options.with_ruy,
             "TFLITE_ENABLE_NNAPI": self.options.get_safe("with_nnapi", False),
-            "TFLITE_ENABLE_GPU": False,
+            "TFLITE_ENABLE_GPU": self.options.get_safe("with_gpu", False),
             "TFLITE_ENABLE_XNNPACK": self.options.with_xnnpack,
             "TFLITE_ENABLE_MMAP": self.options.get_safe("with_mmap", False),
             "FETCHCONTENT_FULLY_DISCONNECTED": True,
